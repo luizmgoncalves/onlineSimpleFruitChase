@@ -1,0 +1,47 @@
+#container{
+    display: flex;
+    flex-direction: row;
+}
+
+#game_map_tb {
+    width: 75%;
+    background-color: white;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.styled-table {
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 100px;
+}
+
+.table_container {
+    background-color: #75f3ff;
+    border-style: solid;
+    width: fit-content;
+
+    height: fit-content;
+
+    padding: 5px;
+    border-radius: 3px;
+    margin: 20px;
+}
+
+.styled-table td{
+    border-radius: 3px;
+    min-width: 50px;
+    padding-inline: 10px;
+}
+
+.styled-table td:nth-of-type(even){
+    text-align: center;
+}
+
+.styled-table tr:nth-of-type(even) {
+    background-color: #75f3ff;
+}
+
+.styled-table tr:nth-of-type(odd) {
+    background-color: #409cff;
+}

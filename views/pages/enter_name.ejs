@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #enter_name{
+            background-color: #75f3ff;
+            width: fit-content;
+            text-align: center;
+            padding: 20px;
+
+            border-style: solid;
+            border-width: 3px;
+            border-radius: 3px;
+
+            font-size: 2em;
+            font-family: cursive;
+            
+
+            margin: auto;
+            margin-top: 5em;
+        }
+
+        #enter_name *{
+            margin-top: 10px;
+        }
+
+        #enter_name input{
+            border-radius: 10px;
+            border-style: dashed;
+            padding: 10px;
+        }
+
+        #enter_name button{
+            padding:  5px 10px;
+            font-family: cursive;
+        }
+    </style>
+</head>
+<body>
+    <div id="enter_name">
+        <span>Entre com seu nome:</span> <br>
+        <input type="text" id="nome"> 
+        <button id="submit">Entrar</button>
+    </div>
+
+    <script>
+        function redirect(){
+            name = document.getElementById("nome").value
+            if(name !== ''){
+                window.location.assign(`${window.location.href}game/${name}`);
+            }
+        }
+        document.getElementById("nome").addEventListener('change', redirect)
+        document.getElementById("submit").addEventListener('click', redirect)
+    </script>
+</body>
+</html>

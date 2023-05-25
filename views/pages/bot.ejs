@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="/game.css">
+</head>
+
+<body>
+    <div id="container">
+        <canvas id="game_map_tb" width="600px" height="300px"></canvas>
+        <div class="table_container">
+            <table class="styled-table">
+                <tbody id="placar">
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <% if(bot){ %>
+        <script src='http://joeiddon.github.io/perlin/perlin.js'></script>
+        <script src="name_gen.js"></script>
+    <% } %>
+
+    <script src="/game_en.js">
+        /* Player class and some important functions as:
+            - show_placar()
+            - draw_player()
+            - draw_all()
+
+            and does somethings like:
+            - init all global variables (except PLAYER_NAME)
+            - all web-socket settings and functions
+        */
+    </script>
+
+    <% if(bot){ %>
+        
+        <script src="/bot.js"></script>
+
+    <% } else { %>
+        <script>
+            var PLAYER_NAME = "<%= name %>"
+        </script>
+    
+        <script src="/self_control.js"></script>
+    <% } %>
+    
+
+</body>
+
+</html>
