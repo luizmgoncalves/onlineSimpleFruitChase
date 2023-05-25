@@ -64,12 +64,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/game/:name', (req, res) => {
-    res.render('pages/bot', {bot: false, name: req.params.name});
+    res.render('pages/game', {bot: false, name: req.params.name});
     
 });
 
 app.get('/bot', (req, res)=>{
-    res.render('pages/bot', {bot: true});
+    res.render('pages/game', {bot: true});
 })
 
 io.on('connect', (socket) => {
