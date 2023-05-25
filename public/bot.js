@@ -21,9 +21,9 @@ function check_moves() {
 
     d = Math.hypot(limiarx, limiary)
 
-    //limiarx += perlin.get(time_index / 10, 0) * Math.pow(d, 2) / 1
+    limiarx += perlin.get(time_index / 10, 0) * Math.pow(d, 2) / 1
 
-    //limiary += perlin.get(0, time_index / 10) * Math.pow(d, 2) / 1
+    limiary += perlin.get(0, time_index / 10) * Math.pow(d, 2) / 1
 
 
     STATE.d = limiarx >= 1

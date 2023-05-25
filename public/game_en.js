@@ -79,12 +79,13 @@ function draw_all() {
         }
     )
 
-    /*
-    for (let i = 0; i < game_dims[0]; i++) {
-        for (let j = 0; j < game_dims[1]; j++) {
-            ctx.strokeRect(square_dim * j, square_dim * i, square_dim, square_dim);
+    if (DRAW_LINES) {
+        for (let i = 0; i < game_dims[0]; i++) {
+            for (let j = 0; j < game_dims[1]; j++) {
+                ctx.strokeRect(square_dim * j, square_dim * i, square_dim, square_dim);
+            }
         }
-    }*/
+    }
 }
 
 function draw_player(player_) {
@@ -106,9 +107,16 @@ var ctx = canvas.getContext('2d');
 
 let game_dims = [20, 40]
 
-let square_dim = 15
+let square_dim = 25
 
 var PLAYER_ID = 0
+
+var DRAW_LINES = false
+
+document.getElementById('draw_lines').addEventListener('click', ()=>{
+    DRAW_LINES = !DRAW_LINES
+    draw_all()
+})
 
 var PLAYERS = {}
 
@@ -127,9 +135,9 @@ STATE = { // loads the players current direction
 const socket = io();
 
 socket.on('connect', function () {
-    try{
+    try {
         clearInterval(MAIN_LOOP);
-    }catch{}
+    } catch { }
 
     socket.emit("join", { n: PLAYER_NAME })
 });
