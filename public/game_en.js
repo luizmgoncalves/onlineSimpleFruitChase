@@ -139,18 +139,16 @@ socket.on('connect', function () {
         clearInterval(MAIN_LOOP);
     } catch { }
 
-    socket.emit("join", { n: PLAYER_NAME })
+    socket.emit("join", PLAYER_NAME)
 });
 
-socket.on('set', function (data) { // data = {"player": {'id': p.id, 'x': p.x, 'y': p.y}}
-    PLAYER_ID = data.player.id
+socket.on('set', function (id, x, y, others) { // data = {"player": {'id': p.id, 'x': p.x, 'y': p.y}}
+    PLAYER_ID = id
 
-    PLAYERS[PLAYER_ID] = new Player(PLAYER_NAME, PLAYER_ID, data.player.x, data.player.y, 0)
+    PLAYERS[PLAYER_ID] = new Player(PLAYER_NAME, PLAYER_ID, x, y, 0)
 
-
-    data.others.forEach((p) => {
+    others.forEach((p) => {
         PLAYERS[p.id] = new Player(p.n, p.id, p.x, p.y, p.s)
-
     })
     show_placar()
 
@@ -159,35 +157,35 @@ socket.on('set', function (data) { // data = {"player": {'id': p.id, 'x': p.x, '
     draw_all()
 });
 
-socket.on("new_player", (data) => { // data = {'id': p.id, 'x': p.x, 'y': p.y}
-    if (data.id != PLAYER_ID) {
-        console.log("new player: ", data)
-        PLAYERS[data.id] = new Player(data.n, data.id, data.x, data.y, data.s)
+socket.on("n_p", (name, id, x, y, score) => { // new player
+    console.log(name, id, x, y, score)
+    if (id != PLAYER_ID) {
+        PLAYERS[id] = new Player(name, id, x, y, score)
         show_placar()
         draw_all()
     }
 });
 
-socket.on("pointed", (data) => { // data = {'id': p.id, 'x': p.x, 'y': p.y}
-    PLAYERS[-1] = new Player('', -1, data.x, data.y, 0)
-    PLAYERS[data.id].score++
+socket.on("ptd", (id, x, y) => { 
+    PLAYERS[-1] = new Player('', -1, x, y, 0)
+    PLAYERS[id].score++
     show_placar()
     draw_all()
 });
 
-socket.on("delete_player", (data) => { // data = {'id': p.id}
-    if (data.id != PLAYER_ID) {
-        delete PLAYERS[data.id]
-        console.log("del player " + data.id)
+socket.on("del_p", (id) => { 
+    if (id != PLAYER_ID) {
+        delete PLAYERS[id]
         draw_all()
+        show_placar()
     }
 });
 
-socket.on("move", (data) => { // data = {id: player.id, 'direction': direction}
-    if (data.id != PLAYER_ID) {
+socket.on("mv", (id, directions) => { // move
+    if (id != PLAYER_ID) {
 
-        data.d.forEach((d) => {
-            PLAYERS[data.id].move(d)
+        directions.forEach((d) => {
+            PLAYERS[id].move(d)
         })
 
         draw_all()

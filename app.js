@@ -75,11 +75,10 @@ app.get('/bot', (req, res)=>{
 io.on('connect', (socket) => {
     console.log("connecting with ", socket.id)
 
-    socket.on('join', (data) => {
-        // socket.data = {n: name} // direction = w|a|s|d
+    socket.on('join', (player_name) => {
 
         if (Object.keys(players).length <= 20) {
-            console.log(`${data.n} entered the game`)
+            console.log(`${player_name} entered the game`)
 
             //set others players array
             others = []
@@ -90,7 +89,7 @@ io.on('connect', (socket) => {
             });
             //
 
-            let p = new Player(data.n)
+            let p = new Player(player_name)
 
             players[p.id] = p
 
@@ -98,32 +97,28 @@ io.on('connect', (socket) => {
 
 
 
-            socket.emit('set', {
-                "player": { 'id': p.id, 'x': p.x, 'y': p.y },
-                'others': others
-            })
+            socket.emit('set',  p.id, p.x, p.y , others)
 
-            io.sockets.emit('new_player', { 'n': p.name, 'id': p.id, 'x': p.x, 'y': p.y, 's': p.score })
+            io.sockets.emit('n_p', p.name, p.id, p.x, p.y, p.score)
 
-            socket.on('moved', (data) => {
-                // socket.data = {id: player.id, 'd': direction} // direction = w|a|s|d
+            socket.on('md', (directions) => { // moved
 
-                data.d.forEach(d => {
-                    players[data.id].move(d)
+                directions.forEach(d => {
+                    players[players_id_sid[socket.id]].move(d)
                 })
 
-                if (players[data.id].x == players[-1].x && players[data.id].y == players[-1].y) {
+                if (players[players_id_sid[socket.id]].x == players[-1].x && players[players_id_sid[socket.id]].y == players[-1].y) {
 
-                    console.log(`${players[data.id].name} scored`)
-                    players[data.id].score++
+                    console.log(`${players[players_id_sid[socket.id]].name} scored`)
+                    players[players_id_sid[socket.id]].score++
 
                     players[-1] = new Player("", -1)
-                    io.sockets.emit('pointed', { 'id': data.id, 'x': players[-1].x, 'y': players[-1].y })
+                    io.sockets.emit('ptd', players_id_sid[socket.id], players[-1].x, players[-1].y)
 
                 }
 
 
-                io.sockets.emit('move', data)
+                io.sockets.emit('mv', players_id_sid[socket.id], directions)
             })
 
 
@@ -137,7 +132,7 @@ io.on('connect', (socket) => {
 
                 delete players_id_sid[socket.id]
 
-                io.sockets.emit('delete_player', { 'id': player_id })
+                io.sockets.emit('del_p', player_id)
             })
 
         }
@@ -159,5 +154,5 @@ setTimeout(() => { // spawn new fruit
 
     players[-1] = new Player("", -1)
 
-    io.sockets.emit('new_player', { 'id': players[-1].id, 'x': players[-1].x, 'y': players[-1].y })
+    io.sockets.emit('n_p', '', -1, players[-1].x, players[-1].y, 0)
 }, 10000)

@@ -51,6 +51,6 @@ function check_moves() {
 
     if (directions.length) {
         draw_all()
-        socket.emit('moved', { id: PLAYER_ID, 'd': directions });
+        socket.emit('md', directions);
     }
 }
