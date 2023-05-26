@@ -146,8 +146,8 @@ players[-1] = new Player("", -1)
 players[-1].x = -1
 players[-1].y = -1
 
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+server.listen(8080, () => {
+    console.log('listening on *:8080');
 });
 
 setTimeout(() => { // spawn new fruit
