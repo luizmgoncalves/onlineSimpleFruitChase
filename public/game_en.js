@@ -152,7 +152,7 @@ socket.on('set', function (id, x, y, others) { // data = {"player": {'id': p.id,
     })
     show_placar()
 
-    MAIN_LOOP = setInterval(check_moves, 350)
+    MAIN_LOOP = setInterval(check_moves, 75)
 
     draw_all()
 });
